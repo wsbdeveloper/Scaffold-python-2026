@@ -22,4 +22,3 @@ class DecisionRepository(ABC):
     async def get_by_id(self, decision_id: UUID) -> Decision | None:
         """Busca uma decisão por ID"""
         pass
-

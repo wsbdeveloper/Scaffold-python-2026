@@ -3,7 +3,6 @@ from uuid import UUID
 
 from ...domain.entities.applicant import Applicant
 from ...domain.entities.decision import Decision
-from ...domain.entities.policy import Policy
 from ...domain.entities.proposal import Proposal
 from ...domain.repositories.decision_repository import DecisionRepository
 from ...domain.repositories.policy_repository import PolicyRepository
@@ -56,7 +55,6 @@ class CreditDecisionService:
                 f"No active policy found for product {proposal.product_type} and channel {proposal.channel}"
             )
 
-        
         proposal = await self.proposal_repository.save(proposal)
         decision = await self.decision_engine.evaluate(proposal, policy)
         decision = await self.decision_repository.save(decision)
@@ -70,4 +68,3 @@ class CreditDecisionService:
     async def get_decision_by_id(self, decision_id: UUID) -> Decision | None:
         """Busca uma decisão pelo ID"""
         return await self.decision_repository.get_by_id(decision_id)
-

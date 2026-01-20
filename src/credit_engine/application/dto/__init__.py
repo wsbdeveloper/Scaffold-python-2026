@@ -1,2 +1,1 @@
 """DTOs (Data Transfer Objects)"""
-

@@ -1,6 +1,7 @@
 """Pytest Configuration"""
 import sys
 from pathlib import Path
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -9,11 +10,12 @@ from sqlalchemy.pool import StaticPool
 # Adiciona src ao path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from credit_engine.infrastructure.database.base import Base
-from credit_engine.infrastructure.database.models import PolicyModel
+from uuid import uuid4
+
 from credit_engine.domain.value_objects.channel import Channel
 from credit_engine.domain.value_objects.product_type import ProductType
-from uuid import uuid4
+from credit_engine.infrastructure.database.base import Base
+from credit_engine.infrastructure.database.models import PolicyModel
 
 
 @pytest.fixture(scope="function")
@@ -43,4 +45,3 @@ def db_session():
     yield session
     session.close()
     Base.metadata.drop_all(bind=engine)
-

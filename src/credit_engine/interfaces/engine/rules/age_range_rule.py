@@ -1,7 +1,7 @@
 """Age Range Rule"""
-from ..rule import Rule
 from ....domain.entities.proposal import Proposal
 from ....domain.entities.rule_result import RuleResult
+from ..rule import Rule
 
 
 class AgeRangeRule(Rule):
@@ -33,6 +33,5 @@ class AgeRangeRule(Rule):
             rule_code=self.code,
             passed=passed,
             message=message,
-            metadata={"min_age": self.MIN_AGE, "max_age": self.MAX_AGE, "applicant_age": age}
+            metadata={"min_age": self.MIN_AGE, "max_age": self.MAX_AGE, "applicant_age": age},
         )
-

@@ -13,4 +13,3 @@ if __name__ == "__main__":
     print("Seeding database with default policy...")
     init_db()
     print("✓ Default policy created successfully!")
-

@@ -1,7 +1,7 @@
 """Initial schema
 
 Revision ID: 001
-Revises: 
+Revises:
 Create Date: 2024-01-01 00:00:00.000000
 
 """
@@ -82,4 +82,3 @@ def downgrade() -> None:
     op.execute('DROP TYPE IF EXISTS decisionstatus')
     op.execute('DROP TYPE IF EXISTS channel')
     op.execute('DROP TYPE IF EXISTS producttype')
-

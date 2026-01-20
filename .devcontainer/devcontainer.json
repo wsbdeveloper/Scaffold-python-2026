@@ -60,7 +60,7 @@
 			"onAutoForward": "silent"
 		}
 	},
-	"postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt",
+	"postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt && pre-commit install",
 	"postStartCommand": "alembic upgrade head",
 	"remoteUser": "vscode",
 	"remoteEnv": {

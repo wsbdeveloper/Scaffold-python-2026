@@ -1,7 +1,7 @@
 """Maximum Income Commitment Rule"""
-from ..rule import Rule
 from ....domain.entities.proposal import Proposal
 from ....domain.entities.rule_result import RuleResult
+from ..rule import Rule
 
 
 class MaxIncomeCommitmentRule(Rule):
@@ -38,6 +38,5 @@ class MaxIncomeCommitmentRule(Rule):
                 "max_commitment": self.MAX_COMMITMENT_PERCENTAGE,
                 "calculated_commitment": commitment_percentage,
                 "monthly_payment": monthly_payment,
-            }
+            },
         )
-

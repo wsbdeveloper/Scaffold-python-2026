@@ -50,7 +50,20 @@ ignore = [
     "E501",  # line too long (handled by formatter)
     "B008",  # do not perform function calls in argument defaults
     "ARG001", # unused function argument (pode ser útil em alguns casos)
+    "E402",  # module level import not at top of file (necessário em alguns casos como alembic/env.py)
+    "UP007", # Use `X | Y` for type annotations (mantém compatibilidade com Python < 3.10)
+    "B904",  # Within an `except` clause, raise exceptions with `raise ... from err` (pode ser muito restritivo)
 ]
+
+[tool.ruff.lint.per-file-ignores]
+# Arquivos do Alembic podem ter imports após configuração de path
+"alembic/env.py" = ["E402"]
+# Seed scripts podem ter imports após configuração
+"seed_db.py" = ["E402"]
+# Testes podem ter imports mais flexíveis
+"tests/**/*.py" = ["E402"]
+# Decision engine usa RuleResult em runtime, não apenas type hints
+"src/credit_engine/interfaces/engine/decision_engine.py" = ["TCH001"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["credit_engine"]
@@ -112,5 +125,10 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = [
     "psycopg2.*",
+    "sqlalchemy.*",
+    "fastapi.*",
+    "uvicorn.*",
+    "pydantic.*",
+    "pydantic_settings.*",
 ]
 ignore_missing_imports = true

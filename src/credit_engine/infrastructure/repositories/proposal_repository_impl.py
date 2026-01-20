@@ -1,5 +1,6 @@
 """Proposal Repository Implementation"""
 from uuid import UUID
+
 from sqlalchemy.orm import Session
 
 from ...domain.entities.applicant import Applicant
@@ -17,9 +18,11 @@ class ProposalRepositoryImpl(ProposalRepository):
     async def save(self, proposal: Proposal) -> Proposal:
         """Salva uma proposta no banco"""
         # Busca ou cria o applicant
-        applicant_model = self.db.query(ApplicantModel).filter_by(
-            document_number=proposal.applicant.document_number
-        ).first()
+        applicant_model = (
+            self.db.query(ApplicantModel)
+            .filter_by(document_number=proposal.applicant.document_number)
+            .first()
+        )
 
         if not applicant_model:
             applicant_model = ApplicantModel(
@@ -70,7 +73,9 @@ class ProposalRepositoryImpl(ProposalRepository):
         applicant_model = proposal_model.applicant
         return self._to_entity(proposal_model, applicant_model)
 
-    def _to_entity(self, proposal_model: ProposalModel, applicant_model: ApplicantModel) -> Proposal:
+    def _to_entity(
+        self, proposal_model: ProposalModel, applicant_model: ApplicantModel
+    ) -> Proposal:
         """Converte modelo para entidade"""
         applicant = Applicant(
             document_number=applicant_model.document_number,
@@ -88,4 +93,3 @@ class ProposalRepositoryImpl(ProposalRepository):
             channel=proposal_model.channel,
             created_at=proposal_model.created_at,
         )
-

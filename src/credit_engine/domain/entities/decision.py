@@ -5,13 +5,13 @@ from typing import Optional
 from uuid import UUID, uuid4
 
 from ..value_objects.decision_status import DecisionStatus
-from .proposal import Proposal
 from .rule_result import RuleResult
 
 
 @dataclass
 class Decision:
     """Entidade que representa uma decisão de crédito"""
+
     proposal_id: UUID
     status: DecisionStatus
     policy_name: str
@@ -35,4 +35,3 @@ class Decision:
     def rejected_reasons(self) -> list[str]:
         """Retorna os códigos das regras que falharam"""
         return [result.rule_code for result in self.rule_results if not result.passed]
-

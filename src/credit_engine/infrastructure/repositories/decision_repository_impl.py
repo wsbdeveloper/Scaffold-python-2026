@@ -1,7 +1,7 @@
 """Decision Repository Implementation"""
 from uuid import UUID
+
 from sqlalchemy.orm import Session
-from datetime import datetime
 
 from ...domain.entities.decision import Decision
 from ...domain.entities.rule_result import RuleResult
@@ -89,4 +89,3 @@ class DecisionRepositoryImpl(DecisionRepository):
             rule_results=rule_results,
             created_at=decision_model.created_at,
         )
-

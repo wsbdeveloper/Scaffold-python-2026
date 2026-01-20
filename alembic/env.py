@@ -1,21 +1,16 @@
 """Alembic Environment Configuration"""
-from logging.config import fileConfig
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-from alembic import context
 import sys
+from logging.config import fileConfig
 from pathlib import Path
+
+from sqlalchemy import engine_from_config, pool
+
+from alembic import context
 
 # Adiciona o diretório src ao path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from credit_engine.infrastructure.database.base import Base
-from credit_engine.infrastructure.database.models import (
-    ApplicantModel,
-    ProposalModel,
-    PolicyModel,
-    DecisionModel,
-)
 from credit_engine.infrastructure.database.config import get_database_url
 
 # this is the Alembic Config object, which provides
@@ -92,4 +87,3 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
-

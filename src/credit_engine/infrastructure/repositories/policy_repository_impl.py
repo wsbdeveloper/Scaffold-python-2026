@@ -1,6 +1,6 @@
 """Policy Repository Implementation"""
+
 from sqlalchemy.orm import Session
-from uuid import UUID
 
 from ...domain.entities.policy import Policy
 from ...domain.repositories.policy_repository import PolicyRepository
@@ -44,4 +44,3 @@ class PolicyRepositoryImpl(PolicyRepository):
             channels=channels,
             is_active=policy_model.is_active,
         )
-

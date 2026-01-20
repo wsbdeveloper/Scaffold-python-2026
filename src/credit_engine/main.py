@@ -1,9 +1,8 @@
 """Main Application"""
 from fastapi import FastAPI
 
-from .interfaces.api.routes.credit_decisions import router as credit_decisions_router
 from .infrastructure.database.init_db import init_db
-
+from .interfaces.api.routes.credit_decisions import router as credit_decisions_router
 
 app = FastAPI(
     title="Credit Engine API",
@@ -24,4 +23,3 @@ async def startup_event():
 async def root():
     """Root endpoint"""
     return {"message": "Credit Engine API", "version": "0.1.0"}
-

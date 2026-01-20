@@ -4,6 +4,7 @@ from pydantic_settings import BaseSettings
 
 class DatabaseSettings(BaseSettings):
     """Configurações do banco de dados"""
+
     database_url: str = "postgresql://user:password@localhost:5432/credit_engine"
 
     class Config:
@@ -17,4 +18,3 @@ def get_database_url() -> str:
     """Retorna a URL do banco de dados"""
     settings = DatabaseSettings()
     return settings.database_url
-

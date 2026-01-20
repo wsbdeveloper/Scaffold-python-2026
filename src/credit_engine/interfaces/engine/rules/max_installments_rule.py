@@ -1,7 +1,7 @@
 """Maximum Installments Rule"""
-from ..rule import Rule
 from ....domain.entities.proposal import Proposal
 from ....domain.entities.rule_result import RuleResult
+from ..rule import Rule
 
 
 class MaxInstallmentsRule(Rule):
@@ -34,7 +34,6 @@ class MaxInstallmentsRule(Rule):
             message=message,
             metadata={
                 "max_installments": self.MAX_INSTALLMENTS,
-                "requested_installments": proposal.installments
-            }
+                "requested_installments": proposal.installments,
+            },
         )
-

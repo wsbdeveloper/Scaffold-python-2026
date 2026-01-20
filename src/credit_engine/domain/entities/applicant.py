@@ -1,11 +1,11 @@
 """Applicant Entity"""
 from dataclasses import dataclass
-from datetime import date
 
 
 @dataclass
 class Applicant:
     """Entidade que representa um solicitante de crédito"""
+
     document_number: str
     name: str
     monthly_income: float
@@ -21,4 +21,3 @@ class Applicant:
             raise ValueError("Document number is required")
         if not self.name or not self.name.strip():
             raise ValueError("Name is required")
-

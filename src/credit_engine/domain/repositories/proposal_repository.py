@@ -17,4 +17,3 @@ class ProposalRepository(ABC):
     async def get_by_id(self, proposal_id: UUID) -> Proposal | None:
         """Busca uma proposta por ID"""
         pass
-

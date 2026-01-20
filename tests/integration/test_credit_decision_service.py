@@ -1,12 +1,17 @@
 """Integration Tests for Credit Decision Service"""
 import pytest
-from credit_engine.application.dto.proposal_dto import ProposalRequestDTO, ApplicantDTO
+
+from credit_engine.application.dto.proposal_dto import ApplicantDTO, ProposalRequestDTO
 from credit_engine.application.services.credit_decision_service import CreditDecisionService
 from credit_engine.domain.value_objects.channel import Channel
 from credit_engine.domain.value_objects.product_type import ProductType
-from credit_engine.infrastructure.repositories.decision_repository_impl import DecisionRepositoryImpl
+from credit_engine.infrastructure.repositories.decision_repository_impl import (
+    DecisionRepositoryImpl,
+)
 from credit_engine.infrastructure.repositories.policy_repository_impl import PolicyRepositoryImpl
-from credit_engine.infrastructure.repositories.proposal_repository_impl import ProposalRepositoryImpl
+from credit_engine.infrastructure.repositories.proposal_repository_impl import (
+    ProposalRepositoryImpl,
+)
 from credit_engine.interfaces.engine.decision_engine import DecisionEngine
 from credit_engine.interfaces.engine.rules.age_range_rule import AgeRangeRule
 from credit_engine.interfaces.engine.rules.max_income_commitment_rule import MaxIncomeCommitmentRule
@@ -17,7 +22,7 @@ from credit_engine.interfaces.engine.rules.min_income_rule import MinIncomeRule
 @pytest.mark.asyncio
 async def test_approved_proposal(db_session):
     """Testa uma proposta aprovada"""
-    
+
     proposal_repo = ProposalRepositoryImpl(db_session)
     decision_repo = DecisionRepositoryImpl(db_session)
     policy_repo = PolicyRepositoryImpl(db_session)
@@ -35,7 +40,6 @@ async def test_approved_proposal(db_session):
         decision_engine=engine,
     )
 
-    
     request = ProposalRequestDTO(
         applicant=ApplicantDTO(
             document_number="12345678900",
@@ -49,10 +53,8 @@ async def test_approved_proposal(db_session):
         channel=Channel.APP,
     )
 
-    
     decision = await service.analyze_proposal(request)
 
-    
     assert decision.status.value == "APPROVED"
     assert len(decision.rejected_reasons) == 0
     assert decision.policy_name == "DEFAULT_POLICY_V1"
@@ -63,7 +65,7 @@ async def test_approved_proposal(db_session):
 @pytest.mark.asyncio
 async def test_rejected_proposal_low_income(db_session):
     """Testa uma proposta rejeitada por renda baixa"""
-    
+
     proposal_repo = ProposalRepositoryImpl(db_session)
     decision_repo = DecisionRepositoryImpl(db_session)
     policy_repo = PolicyRepositoryImpl(db_session)
@@ -81,7 +83,6 @@ async def test_rejected_proposal_low_income(db_session):
         decision_engine=engine,
     )
 
-    
     request = ProposalRequestDTO(
         applicant=ApplicantDTO(
             document_number="98765432100",
@@ -95,11 +96,8 @@ async def test_rejected_proposal_low_income(db_session):
         channel=Channel.APP,
     )
 
-    
     decision = await service.analyze_proposal(request)
 
-    
     assert decision.status.value == "REJECTED"
     assert "MIN_INCOME_NOT_MET" in decision.rejected_reasons
     assert decision.policy_name == "DEFAULT_POLICY_V1"
-

@@ -12,6 +12,7 @@ from .applicant import Applicant
 @dataclass
 class Proposal:
     """Entidade que representa uma proposta de crédito"""
+
     applicant: Applicant
     requested_amount: float
     installments: int
@@ -30,4 +31,3 @@ class Proposal:
             raise ValueError("Requested amount must be positive")
         if self.installments <= 0:
             raise ValueError("Installments must be positive")
-

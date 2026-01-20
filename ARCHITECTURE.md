@@ -156,11 +156,11 @@ class NewCustomRule(Rule):
     @property
     def code(self) -> str:
         return "CUSTOM_RULE_CODE"
-    
+
     @property
     def name(self) -> str:
         return "Custom Rule"
-    
+
     async def evaluate(self, proposal: Proposal) -> RuleResult:
         # Lógica da regra
         passed = ...
@@ -280,4 +280,3 @@ Database (PostgreSQL)
 
 - **Unit Tests**: Testam regras isoladamente
 - **Integration Tests**: Testam fluxo completo com banco em memória (SQLite)
-

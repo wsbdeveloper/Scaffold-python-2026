@@ -1,6 +1,7 @@
 """Database Seeding - Políticas padrão"""
-from sqlalchemy.orm import Session
 from uuid import uuid4
+
+from sqlalchemy.orm import Session
 
 from ...domain.value_objects.channel import Channel
 from ...domain.value_objects.product_type import ProductType
@@ -25,4 +26,3 @@ def seed_default_policy(db: Session):
     )
     db.add(policy)
     db.commit()
-

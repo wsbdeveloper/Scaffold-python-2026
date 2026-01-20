@@ -1,5 +1,4 @@
 """Decision Engine"""
-from typing import List
 
 from ...domain.entities.decision import Decision
 from ...domain.entities.policy import Policy
@@ -12,7 +11,7 @@ from .rule import Rule
 class DecisionEngine:
     """Motor de decisão de crédito"""
 
-    def __init__(self, rules: List[Rule]):
+    def __init__(self, rules: list[Rule]):
         """Inicializa o engine com uma lista de regras"""
         self.rules = rules
 
@@ -20,7 +19,7 @@ class DecisionEngine:
         """
         Avalia uma proposta usando as regras configuradas e retorna uma decisão
         """
-        rule_results: List[RuleResult] = []
+        rule_results: list[RuleResult] = []
 
         # Executa todas as regras
         for rule in self.rules:
@@ -34,14 +33,16 @@ class DecisionEngine:
         # fica mais limpo e legivel o código.
         status = DecisionStatus.APPROVED if all_passed else DecisionStatus.REJECTED
 
+        if proposal.id is None:
+            raise ValueError("Proposal ID is required")
+
         # Cria a decisão
         decision = Decision(
             proposal_id=proposal.id,
             status=status,
             policy_name=policy.name,
             policy_version=policy.version,
-            rule_results=rule_results
+            rule_results=rule_results,
         )
 
         return decision
-

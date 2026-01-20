@@ -1,6 +1,5 @@
 """Policy Entity"""
 from dataclasses import dataclass
-from typing import Optional
 from uuid import UUID
 
 from ..value_objects.channel import Channel
@@ -10,6 +9,7 @@ from ..value_objects.product_type import ProductType
 @dataclass
 class Policy:
     """Entidade que representa uma política de crédito"""
+
     id: UUID
     name: str
     version: str
@@ -33,4 +33,3 @@ class Policy:
         if not self.is_active:
             return False
         return product_type in self.product_types and channel in self.channels
-

@@ -1,7 +1,7 @@
 """Minimum Income Rule"""
-from ..rule import Rule
 from ....domain.entities.proposal import Proposal
 from ....domain.entities.rule_result import RuleResult
+from ..rule import Rule
 
 
 class MinIncomeRule(Rule):
@@ -30,6 +30,8 @@ class MinIncomeRule(Rule):
             rule_code=self.code,
             passed=passed,
             message=message,
-            metadata={"min_income": self.MIN_INCOME, "applicant_income": proposal.applicant.monthly_income}
+            metadata={
+                "min_income": self.MIN_INCOME,
+                "applicant_income": proposal.applicant.monthly_income,
+            },
         )
-

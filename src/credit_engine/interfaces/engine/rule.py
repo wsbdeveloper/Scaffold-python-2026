@@ -24,4 +24,3 @@ class Rule(ABC):
     async def evaluate(self, proposal: Proposal) -> RuleResult:
         """Avalia a proposta e retorna o resultado"""
         pass
-

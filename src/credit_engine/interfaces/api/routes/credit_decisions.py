@@ -1,9 +1,10 @@
 """Credit Decisions Routes"""
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from uuid import UUID
 
-from ....application.dto.proposal_dto import ProposalRequestDTO, DecisionResponseDTO
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+
+from ....application.dto.proposal_dto import DecisionResponseDTO, ProposalRequestDTO
 from ....application.services.credit_decision_service import CreditDecisionService
 from ....infrastructure.database.base import get_db
 from ....infrastructure.repositories.decision_repository_impl import DecisionRepositoryImpl
@@ -14,7 +15,6 @@ from ....interfaces.engine.rules.age_range_rule import AgeRangeRule
 from ....interfaces.engine.rules.max_income_commitment_rule import MaxIncomeCommitmentRule
 from ....interfaces.engine.rules.max_installments_rule import MaxInstallmentsRule
 from ....interfaces.engine.rules.min_income_rule import MinIncomeRule
-
 
 router = APIRouter(prefix="/credit_decisions", tags=["credit_decisions"])
 
@@ -54,7 +54,7 @@ async def create_credit_decision(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {e!s}")
 
 
 @router.get("/by-proposal/{proposal_id}", response_model=DecisionResponseDTO)
@@ -67,7 +67,7 @@ async def get_credit_decision_by_proposal(
     if not decision:
         raise HTTPException(
             status_code=404,
-            detail=f"Decision not found for proposal_id: {proposal_id}. Make sure you submitted a proposal first using POST /credit_decisions"
+            detail=f"Decision not found for proposal_id: {proposal_id}. Make sure you submitted a proposal first using POST /credit_decisions",
         )
     return _decision_to_dto(decision)
 
@@ -82,7 +82,7 @@ async def get_credit_decision(
     if not decision:
         raise HTTPException(
             status_code=404,
-            detail=f"Decision not found with id: {decision_id}. Use the 'id' field from the POST /credit_decisions response."
+            detail=f"Decision not found with id: {decision_id}. Use the 'id' field from the POST /credit_decisions response.",
         )
     return _decision_to_dto(decision)
 
@@ -111,4 +111,3 @@ def _decision_to_dto(decision) -> DecisionResponseDTO:
         rule_results=rule_results_dto,
         created_at=decision.created_at.isoformat(),
     )
-

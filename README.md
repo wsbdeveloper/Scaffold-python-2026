@@ -178,6 +178,31 @@ O projeto está configurado para usar Ruff e MyPy automaticamente no VS Code atr
 - **MyPy** verifica tipos automaticamente
 - Formatação e organização de imports acontecem automaticamente ao salvar
 
+### Pre-commit Hooks
+
+O projeto utiliza **pre-commit** para executar automaticamente o Ruff e MyPy antes de cada commit, garantindo que apenas código validado seja commitado.
+
+**Instalar os hooks (após instalar as dependências):**
+```bash
+pre-commit install
+```
+
+**Executar os hooks manualmente em todos os arquivos:**
+```bash
+pre-commit run --all-files
+```
+
+**Pular os hooks em um commit específico (não recomendado):**
+```bash
+git commit --no-verify -m "mensagem"
+```
+
+Os hooks executam automaticamente:
+- **Ruff linter** (com correções automáticas)
+- **Ruff formatter**
+- **MyPy type checker**
+- Verificações básicas (whitespace, YAML, JSON, etc.)
+
 ### Comandos Úteis
 
 **Executar todas as verificações:**
@@ -188,6 +213,11 @@ ruff check . && ruff format --check . && mypy .
 **Corrigir e formatar tudo:**
 ```bash
 ruff check --fix . && ruff format .
+```
+
+**Testar os hooks do pre-commit:**
+```bash
+pre-commit run --all-files
 ```
 
 ## Exemplos de Uso

@@ -1,18 +1,21 @@
 """Database Models"""
 from datetime import datetime
-from uuid import uuid4, UUID
-from sqlalchemy import Column, String, Float, Integer, DateTime, JSON, ForeignKey, Boolean, Enum as SQLEnum
+from uuid import uuid4
+
+from sqlalchemy import JSON, Boolean, Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.dialects.postgresql import UUID as PostgresUUID
 from sqlalchemy.orm import relationship
 
-from .base import Base
 from ...domain.value_objects.channel import Channel
 from ...domain.value_objects.decision_status import DecisionStatus
 from ...domain.value_objects.product_type import ProductType
+from .base import Base
 
 
 class ApplicantModel(Base):
     """Modelo de banco para Applicant"""
+
     __tablename__ = "applicants"
 
     id = Column(PostgresUUID(as_uuid=True), primary_key=True, default=uuid4)
@@ -25,6 +28,7 @@ class ApplicantModel(Base):
 
 class ProposalModel(Base):
     """Modelo de banco para Proposal"""
+
     __tablename__ = "proposals"
 
     id = Column(PostgresUUID(as_uuid=True), primary_key=True, default=uuid4)
@@ -40,6 +44,7 @@ class ProposalModel(Base):
 
 class PolicyModel(Base):
     """Modelo de banco para Policy"""
+
     __tablename__ = "policies"
 
     id = Column(PostgresUUID(as_uuid=True), primary_key=True, default=uuid4)
@@ -53,10 +58,17 @@ class PolicyModel(Base):
 
 class DecisionModel(Base):
     """Modelo de banco para Decision"""
+
     __tablename__ = "decisions"
 
     id = Column(PostgresUUID(as_uuid=True), primary_key=True, default=uuid4)
-    proposal_id = Column(PostgresUUID(as_uuid=True), ForeignKey("proposals.id"), nullable=False, unique=True, index=True)
+    proposal_id = Column(
+        PostgresUUID(as_uuid=True),
+        ForeignKey("proposals.id"),
+        nullable=False,
+        unique=True,
+        index=True,
+    )
     status = Column(SQLEnum(DecisionStatus), nullable=False)
     policy_name = Column(String, nullable=False)
     policy_version = Column(String, nullable=False)
@@ -64,4 +76,3 @@ class DecisionModel(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     proposal = relationship("ProposalModel", backref="decision")
-

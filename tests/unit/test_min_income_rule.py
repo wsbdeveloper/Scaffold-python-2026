@@ -1,5 +1,6 @@
 """Test Minimum Income Rule"""
 import pytest
+
 from credit_engine.domain.entities.applicant import Applicant
 from credit_engine.domain.entities.proposal import Proposal
 from credit_engine.domain.value_objects.channel import Channel
@@ -56,4 +57,3 @@ async def test_min_income_rule_fails():
     assert result.rule_code == "MIN_INCOME_NOT_MET"
     assert result.message is not None
     assert "Minimum income not met" in result.message
-

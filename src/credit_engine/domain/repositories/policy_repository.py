@@ -15,4 +15,3 @@ class PolicyRepository(ABC):
     ) -> Policy | None:
         """Busca uma política ativa para um produto e canal"""
         pass
-

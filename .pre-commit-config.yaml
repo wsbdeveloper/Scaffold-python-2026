@@ -1,0 +1,52 @@
+# Pre-commit hooks configuration
+# Para instalar: pre-commit install
+# Para testar: pre-commit run --all-files
+
+repos:
+  # Ruff - Linter e Formatter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.15
+    hooks:
+      # Ruff linter
+      - id: ruff
+        name: ruff (linter)
+        args: [--fix]
+        types_or: [python, pyi]
+      # Ruff formatter
+      - id: ruff-format
+        name: ruff (formatter)
+        types_or: [python, pyi]
+
+  # MyPy - Type checker
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        name: mypy (type checker)
+        additional_dependencies: [types-psycopg2]
+        args: [--config-file=pyproject.toml, --show-error-codes]
+        types: [python]
+        exclude: ^(alembic/|tests/.*\.py$)
+        # Excluir testes do mypy por padrão, mas pode ser habilitado se necessário
+
+  # Verificação básica de arquivos Python
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        name: Trim Trailing Whitespace
+      - id: end-of-file-fixer
+        name: Fix End of Files
+      - id: check-yaml
+        name: Check YAML
+      - id: check-added-large-files
+        name: Check for large files
+        args: ['--maxkb=1000']
+      - id: check-json
+        name: Check JSON
+      - id: check-toml
+        name: Check TOML
+      - id: check-merge-conflict
+        name: Check for merge conflicts
+      - id: debug-statements
+        name: Check for debugger imports
