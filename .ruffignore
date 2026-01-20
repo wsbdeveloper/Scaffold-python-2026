@@ -1,0 +1,25 @@
+# Arquivos e diretórios ignorados pelo Ruff
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+ENV/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+alembic/versions/
+*.egg
+
+# Arquivos de migração do Alembic (geralmente gerados automaticamente)
+alembic/versions/*.py
+
+# Arquivos de configuração e build
+setup.py
+setup.cfg

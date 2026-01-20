@@ -1,0 +1,2 @@
+"""Infrastructure Layer - Implementações concretas"""
+

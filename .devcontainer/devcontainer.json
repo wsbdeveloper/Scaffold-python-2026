@@ -1,0 +1,69 @@
+{
+	"name": "Credit Engine Backend",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-python.black-formatter",
+				"ms-python.isort",
+				"ms-python.debugpy",
+				"charliermarsh.ruff",
+				"ms-python.mypy-type-checker"
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.pylintEnabled": false,
+				"python.linting.ruffEnabled": true,
+				"python.formatting.provider": "none",
+				"editor.formatOnSave": true,
+				"editor.codeActionsOnSave": {
+					"source.organizeImports": "explicit",
+					"source.fixAll": "explicit"
+				},
+				"[python]": {
+					"editor.defaultFormatter": "charliermarsh.ruff",
+					"editor.formatOnSave": true,
+					"editor.codeActionsOnSave": {
+						"source.organizeImports": "explicit",
+						"source.fixAll": "explicit"
+					}
+				},
+				"ruff.enable": true,
+				"ruff.organizeImports": true,
+				"ruff.fixAll": true,
+				"ruff.lint.enable": true,
+				"ruff.format.args": [],
+				"mypy-type-checker.args": [
+					"--config-file",
+					"pyproject.toml"
+				],
+				"mypy-type-checker.reportingScope": "workspace"
+			}
+		}
+	},
+	"forwardPorts": [
+		8000,
+		5432
+	],
+	"portsAttributes": {
+		"8000": {
+			"label": "FastAPI",
+			"onAutoForward": "notify"
+		},
+		"5432": {
+			"label": "PostgreSQL",
+			"onAutoForward": "silent"
+		}
+	},
+	"postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt",
+	"postStartCommand": "alembic upgrade head",
+	"remoteUser": "vscode",
+	"remoteEnv": {
+		"DATABASE_URL": "postgresql://user:password@postgres:5432/credit_engine"
+	}
+}
