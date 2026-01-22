@@ -1,4 +1,5 @@
 """Channel Value Object"""
+
 from enum import Enum
 
 

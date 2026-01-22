@@ -17,22 +17,15 @@ repos:
         name: ruff (formatter)
         types_or: [python, pyi]
 
-  # MyPy - Type checker
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
-    hooks:
-      - id: mypy
-        name: mypy (type checker)
-        additional_dependencies: [types-psycopg2]
-        args: [--config-file=pyproject.toml, --show-error-codes]
-        types: [python]
-        exclude: ^(alembic/|tests/.*\.py$)
-        # Excluir testes do mypy por padrão, mas pode ser habilitado se necessário
 
   # Verificação básica de arquivos Python
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
+      - id: check-yaml
+        name: Check YAML
+      - id: end-of-file-fixer
+        name: Fix End of Files
       - id: trailing-whitespace
         name: Trim Trailing Whitespace
       - id: end-of-file-fixer

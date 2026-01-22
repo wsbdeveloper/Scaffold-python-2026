@@ -1,4 +1,5 @@
 """Applicant Entity"""
+
 from dataclasses import dataclass
 
 

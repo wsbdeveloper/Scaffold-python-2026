@@ -1,4 +1,5 @@
 """Credit Decisions Routes"""
+
 from uuid import UUID
 
 from fastapi import APIRouter

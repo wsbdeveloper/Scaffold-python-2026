@@ -1,4 +1,5 @@
 """Main Application"""
+
 from fastapi import FastAPI
 
 from .interfaces.api.routes.user import router as credit_decisions_router
