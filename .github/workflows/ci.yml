@@ -75,7 +75,7 @@ jobs:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} e00dcfa7ab3848431c3b9e8fcc83de8762b9fe41
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
@@ -153,6 +153,7 @@ jobs:
         with:
           args: --severity-threshold=high --fail-on=high
         if: hashFiles('**/requirements.txt') != ''
+        command: monitor
 
       - name: Check for High/Critical vulnerabilities
         run: |
