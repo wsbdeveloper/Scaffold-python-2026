@@ -145,20 +145,12 @@ jobs:
           pip-audit --requirement requirements.txt --desc --format=json --output pip-audit-report.json || exit 1
           pip-audit --requirement requirements.txt --desc --severity high,critical || exit 1
 
-      - name: Run Snyk SCA Scan (Python)
-        uses: snyk/actions/python@master
-        continue-on-error: true
-        run: |
-          pip install --upgrade pip
-          pip install snyk
-          snyk auth ${{ secrets.SNYK_TOKEN }}
-          snyk test --severity-threshold=high --fail-on=high
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python-3.10@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --severity-threshold=high --fail-on=high
-        if: hashFiles('**/requirements.txt') != ''
-        command: monitor
+          args: --severity-threshold=high
 
       - name: Check for High/Critical vulnerabilities
         run: |
