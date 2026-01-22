@@ -15,8 +15,6 @@ psycopg2-binary = ">=2.9.11"
 pydantic = ">=2.9.0"
 pydantic-settings = ">=2.5.0"
 python-dotenv = "1.0.0"
-httpx = "0.25.2"
-pbs-installer = "^2026.1.14"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "7.4.3"
