@@ -148,6 +148,11 @@ jobs:
       - name: Run Snyk SCA Scan (Python)
         uses: snyk/actions/python@master
         continue-on-error: true
+        run: |
+          pip install --upgrade pip
+          pip install snyk
+          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk test --severity-threshold=high --fail-on=high
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
