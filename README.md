@@ -1,4 +1,4 @@
-# Motor de Decisão de Crédito
+# Scaffold Python
 
 Sistema de análise e decisão de crédito desenvolvido com **FastAPI**, **Clean Code** e **Arquitetura Hexagonal**.
 
@@ -13,7 +13,7 @@ Sistema de análise e decisão de crédito desenvolvido com **FastAPI**, **Clean
 ### 1. Clone o repositório (ou navegue até o diretório)
 
 ```bash
-cd teste-backend
+cd /path/to/your/project
 ```
 
 ### 2. Crie um ambiente virtual
@@ -58,7 +58,8 @@ docker-compose up -d
 Certifique-se de que o PostgreSQL está rodando e crie o banco:
 
 ```sql
-CREATE DATABASE credit_engine;
+-- se necessário, ajuste o nome do banco.
+CREATE DATABASE table_scaffold;
 ```
 
 ### 6. Execute as migrations
@@ -66,10 +67,6 @@ CREATE DATABASE credit_engine;
 ```bash
 alembic upgrade head
 ```
-
-### 7. (Opcional) Seed da política padrão
-
-O sistema cria automaticamente a política padrão na primeira execução, mas você pode executar manualmente se necessário. A política `DEFAULT_POLICY_V1` é criada automaticamente via seed no código.
 
 ## Executando a Aplicação
 
@@ -90,24 +87,6 @@ Após iniciar a aplicação, acesse:
 
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
-
-
-
-### Exemplos Visuais
-
-Algumas evidências dos testes via swagger, pode encontrar tbm nos arquivos que deixei na raiz do projeto.
-
-#### 1. **ID da Decisão** (`decision_id`)
-
-Exemplo de valor retornado para o campo `"id"` da decisão:
-
-![Exemplo Decision ID](./decision_id.png)
-
-#### 2. **ID da Proposta** (`proposta_id`)
-
-Exemplo de valor retornado para o campo `"proposal_id"`:
-
-![Exemplo Proposta ID](./proposta_id.png)
 
 #### 3. **Swagger UI da API**
 
@@ -219,146 +198,6 @@ ruff check --fix . && ruff format .
 ```bash
 pre-commit run --all-files
 ```
-
-## Exemplos de Uso
-
-### Submeter uma Proposta para Análise
-
-**POST** `/credit_decisions`
-
-```json
-{
-  "applicant": {
-    "document_number": "12345678900",
-    "name": "João Silva",
-    "monthly_income": 5000.0,
-    "age": 30
-  },
-  "requested_amount": 10000.0,
-  "installments": 24,
-  "product_type": "PERSONAL_LOAN",
-  "channel": "APP"
-}
-```
-
-**Resposta (201 Created):**
-
-```json
-{
-  "id": "550e8400-e29b-41d4-a716-446655440000",
-  "proposal_id": "550e8400-e29b-41d4-a716-446655440001",
-  "status": "APPROVED",
-  "policy_name": "DEFAULT_POLICY_V1",
-  "policy_version": "1.0",
-  "rejected_reasons": [],
-  "rule_results": [
-    {
-      "rule_code": "MIN_INCOME_NOT_MET",
-      "passed": true,
-      "message": null,
-      "metadata": {
-        "min_income": 1000.0,
-        "applicant_income": 5000.0
-      }
-    },
-    {
-      "rule_code": "MAX_INCOME_COMMITMENT_EXCEEDED",
-      "passed": true,
-      "message": null,
-      "metadata": {
-        "max_commitment": 0.3,
-        "calculated_commitment": 0.1667,
-        "monthly_payment": 416.67
-      }
-    },
-    {
-      "rule_code": "AGE_OUT_OF_RANGE",
-      "passed": true,
-      "message": null,
-      "metadata": {
-        "min_age": 18,
-        "max_age": 65,
-        "applicant_age": 30
-      }
-    },
-    {
-      "rule_code": "MAX_INSTALLMENTS_EXCEEDED",
-      "passed": true,
-      "message": null,
-      "metadata": {
-        "max_installments": 84,
-        "requested_installments": 24
-      }
-    }
-  ],
-  "created_at": "2024-01-01T12:00:00"
-}
-```
-
-### Consultar uma Decisão
-
-**GET** `/credit_decisions/{proposal_id}`
-
-**Resposta (200 OK):**
-
-```json
-{
-  "id": "550e8400-e29b-41d4-a716-446655440000",
-  "proposal_id": "550e8400-e29b-41d4-a716-446655440001",
-  "status": "APPROVED",
-  "policy_name": "DEFAULT_POLICY_V1",
-  "policy_version": "1.0",
-  "rejected_reasons": [],
-  "rule_results": [...],
-  "created_at": "2024-01-01T12:00:00"
-}
-```
-
-### Exemplo de Proposta Rejeitada
-
-```json
-{
-  "applicant": {
-    "document_number": "98765432100",
-    "name": "Maria Santos",
-    "monthly_income": 500.0,
-    "age": 30
-  },
-  "requested_amount": 5000.0,
-  "installments": 12,
-  "product_type": "PERSONAL_LOAN",
-  "channel": "APP"
-}
-```
-
-**Resposta (201 Created):**
-
-```json
-{
-  "status": "REJECTED",
-  "rejected_reasons": [
-    "MIN_INCOME_NOT_MET"
-  ],
-  "rule_results": [
-    {
-      "rule_code": "MIN_INCOME_NOT_MET",
-      "passed": false,
-      "message": "Minimum income not met. Required: 1000.0, Provided: 500.0",
-      "metadata": {
-        "min_income": 1000.0,
-        "applicant_income": 500.0
-      }
-    },
-    ...
-  ]
-}
-```
-
-## Arquitetura
-
-Para entender melhor a arquitetura do sistema, consulte [ARCHITECTURE.md](ARCHITECTURE.md).
-
-## Comandos Úteis
 
 ### Migrations
 

@@ -1,0 +1,4 @@
+# Ignore security pipeline files
+.security/
+.ci/
+# Add other patterns as needed

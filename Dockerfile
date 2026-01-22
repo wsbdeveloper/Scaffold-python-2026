@@ -17,9 +17,10 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 WORKDIR /workspace
 
-COPY requirements.txt /tmp/requirements.txt
+COPY requirements.txt /workspace/requirements.txt
+
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r /tmp/requirements.txt
+    && pip install --no-cache-dir -r /workspace/requirements.txt
 
 USER $USERNAME
 

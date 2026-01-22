@@ -3,10 +3,10 @@ version: '3.8'
 services:
   app:
     build:
-      context: .
-      dockerfile: .devcontainer/Dockerfile
+      context: ..
+      dockerfile: Dockerfile
     volumes:
-      - ..:/workspace:cached
+      - ..:/workspace
     command: sleep infinity
     depends_on:
       postgres:
@@ -16,17 +16,17 @@ services:
 
   postgres:
     image: postgres:15-alpine
-    container_name: credit_engine_db
+    container_name: database_project
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: credit_engine
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user"]
+      test: [ "CMD-SHELL", "pg_isready -U user" ]
       interval: 5s
       timeout: 5s
       retries: 5

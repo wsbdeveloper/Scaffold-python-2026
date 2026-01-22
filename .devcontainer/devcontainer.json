@@ -1,6 +1,8 @@
 {
-	"name": "Credit Engine Backend",
-	"dockerComposeFile": "../docker-compose.yml",
+	"name": "Python Dev Container",
+	"dockerComposeFile": [
+		"docker-compose.yml"
+	],
 	"service": "app",
 	"workspaceFolder": "/workspace",
 	"customizations": {
@@ -52,18 +54,18 @@
 	],
 	"portsAttributes": {
 		"8000": {
-			"label": "FastAPI",
+			"label": "Service API",
 			"onAutoForward": "notify"
 		},
 		"5432": {
 			"label": "PostgreSQL",
-			"onAutoForward": "silent"
+			"onAutoForward;ear": "silent"
 		}
 	},
 	"postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt && pre-commit install",
 	"postStartCommand": "alembic upgrade head",
 	"remoteUser": "vscode",
 	"remoteEnv": {
-		"DATABASE_URL": "postgresql://user:password@postgres:5432/credit_engine"
+		"DATABASE_URL": "postgresql://user:password@database_project:5432/postgres"
 	}
 }
