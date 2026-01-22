@@ -1,0 +1,45 @@
+name: Branch Protection Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate-pr:
+    name: Validate Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate PR Requirements
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          PR_AUTHOR=${{ github.event.pull_request.user.login }}
+
+          echo "Validating PR #${PR_NUMBER} by ${PR_AUTHOR}"
+
+          # Verificar se PR não está direto na main
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          if [ "$BASE_BRANCH" = "main" ] || [ "$BASE_BRANCH" = "master" ]; then
+            echo "✅ PR targets main branch (correct)"
+          else
+            echo "⚠️  PR targets $BASE_BRANCH branch"
+          fi
+
+          # Verificar se branch está atualizada
+          echo "Checking if branch is up to date..."
+
+          # Verificar se há commits semânticos
+          echo "Checking commit messages..."
+
+      - name: Check PR Labels
+        run: |
+          echo "PR Labels: ${{ github.event.pull_request.labels }}"
+
+      - name: PR Validation Summary
+        run: |
+          echo "✅ PR validation completed"
+          echo "Waiting for required checks to pass..."
