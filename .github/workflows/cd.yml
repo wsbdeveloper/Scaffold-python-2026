@@ -45,9 +45,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # Usar --no-cache-dir garante que o pip não trave se o diretório sumir
-          pip install --no-cache-dir -r requirements.txt
-          pip install --no-cache-dir -r requirements-dev.txt
+          pip install poetry
+          poetry install --no-root
 
       - name: Generate Semantic Version
         id: semver
