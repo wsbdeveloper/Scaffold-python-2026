@@ -68,7 +68,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: SonarQube Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v6
         with:
           projectKey: wsbdeveloper_Scaffold-python-2026
           organization: wsbdeveloper
