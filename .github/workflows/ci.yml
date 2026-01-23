@@ -71,13 +71,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        args: >
-          -Dsonar.organization=wsbdeveloper
-          -Dsonar.projectKey=wsbdeveloper_Scaffold-python-2026
-          -Dsonar.sources=src
-          -Dsonar.python.version=3.10
-          -Dsonar.verbose=true
-
 
       - name: Check Quality Gate status
         if: steps.sonarqube-quality-gate-check.outcome == 'failure'
