@@ -71,6 +71,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Necessário para ler PRs
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.verbose=true
 
 
       - name: Check Quality Gate status
