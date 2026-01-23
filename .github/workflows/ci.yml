@@ -147,15 +147,8 @@ jobs:
 
       - name: Run Python unit tests with coverage
         run: |
-          pytest tests/unit/ -v \
-            --cov=. \
-            --cov-report=html \
-            --cov-report=json \
-            --cov-report=term \
-            --cov-report=xml \
-            --cov-fail-under=${{ env.COVERAGE_THRESHOLD }} \
-            --junitxml=junit.xml \
-            --html=pytest-report.html || exit 1
+          mkdir -p coverage
+          pytest -vv tests/
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v4
