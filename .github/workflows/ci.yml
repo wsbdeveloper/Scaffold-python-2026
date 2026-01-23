@@ -93,16 +93,25 @@ jobs:
           pip install --upgrade pip
           pip install pip-audit
 
+      - name: Check SNYK_TOKEN
+        id: snyk_check
+        run: |
+          if [ -z "$SNYK_TOKEN" ]; then
+            echo "::warning title=Snyk::SNYK_TOKEN não configurado. Scan de vulnerabilidades será ignorado."
+            echo "enabled=false" >> $GITHUB_OUTPUT
+          else
+            echo "enabled=true" >> $GITHUB_OUTPUT
+          fi
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
       - name: Run Snyk to check for vulnerabilities
+        if: steps.snyk_check.outputs.enabled == 'true'
         uses: snyk/actions/python-3.10@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
-
-      - name: Check for High/Critical vulnerabilities
-        run: |
-          echo "SCA scan completed. High/Critical vulnerabilities will fail the pipeline."
 
       - name: Upload pip-audit report
         if: always()
