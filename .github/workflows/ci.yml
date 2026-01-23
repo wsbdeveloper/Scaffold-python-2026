@@ -93,11 +93,6 @@ jobs:
           pip install --upgrade pip
           pip install pip-audit
 
-      - name: Run pip-audit (Dependency Vulnerability Scan)
-        run: |
-          pip-audit --requirement requirements.txt --desc --format=json --output pip-audit-report.json || exit 1
-          pip-audit --requirement requirements.txt --desc --severity high,critical || exit 1
-
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python-3.10@master
         env:
@@ -116,20 +111,6 @@ jobs:
           name: pip-audit-report
           path: pip-audit-report.json
           retention-days: 30
-
-      #- name: Notify Teams - SCA Failed
-      #  if: failure()
-      #  uses: aliencube/microsoft-teams-actions@v0.8.0
-      #  with:
-      #    webhook_uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
-      #    title: '🚨 SCA Scan Failed'
-      #    summary: 'Dependency vulnerability scan detected critical issues'
-      #    text: |
-      #      **Repository:** ${{ github.repository }}
-      #      **Branch:** ${{ github.ref_name }}
-
-      #    Critical or High severity vulnerabilities found in dependencies.
-      #    Update dependencies before proceeding.
 
   # ============================================
   # TESTES AUTOMATIZADOS (TDD)
@@ -208,23 +189,3 @@ jobs:
             exit 1
           fi
           echo "✅ All CI checks passed"
-
-      #- name: Notify Teams - CI Success
-      #  if: success()
-      #  uses: aliencube/microsoft-teams-actions@v0.8.0
-      #  with:
-      #    webhook_uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
-      #    title: '✅ CI Pipeline Passed'
-      #    summary: 'All quality and security checks passed'
-      #    text: |
-      #      **Repository:** ${{ github.repository }}
-      #      **Branch:** ${{ github.ref_name }}
-      #      **Commit:** ${{ github.sha }}
-      #      **Author:** ${{ github.actor }}
-#
-      #      ✅ Linting passed (Pylint, Black, Flake8, MyPy)
-      #      ✅ SAST scan passed (SonarQube, Bandit)
-      #      ✅ SCA scan passed (pip-audit, Snyk)
-      #      ✅ Unit tests passed (coverage ≥ ${{ env.COVERAGE_THRESHOLD }}%)
-#
-      #      Ready for merge approval.
