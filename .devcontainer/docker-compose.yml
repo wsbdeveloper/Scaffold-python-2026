@@ -30,6 +30,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
 
 volumes:
   postgres_data:
