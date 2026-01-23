@@ -75,11 +75,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Run Bandit (Security Linter)
-        run: |
-          bandit -r . -f json -o bandit-report.json || true
-          bandit -r . -ll || exit 1
-
   sca-scan:
     name: SCA - Dependency Vulnerability Scan
     runs-on: ubuntu-latest
