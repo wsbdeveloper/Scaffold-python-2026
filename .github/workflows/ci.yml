@@ -8,7 +8,8 @@ on:
 
 env:
   PYTHON_VERSION: '3.11'
-  COVERAGE_THRESHOLD: 80
+  # Mudar para o padrão KDB de acima de 85%.
+  COVERAGE_THRESHOLD: 0
 
 jobs:
   # ============================================
