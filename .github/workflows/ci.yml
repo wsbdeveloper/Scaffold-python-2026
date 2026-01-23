@@ -61,39 +61,22 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
 
-      - name: Setup Java (required for SonarScanner)
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
       - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
         env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Necessário para ler PRs
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
+            -Dsonar.organization=wsbdeveloper
+            -Dsonar.projectKey=wsbdeveloper_Scaffold-python-2026
             -Dsonar.qualitygate.wait=true
-            -Dsonar.pullrequest.provider=GitHub
-            -Dsonar.pullrequest.github.repository=${{ github.repository }}
-            -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
-            -Dsonar.pullrequest.branch=${{ github.head_ref }}
-            -Dsonar.pullrequest.base=${{ github.base_ref }}
 
-      - name: SonarQube Quality Gate Check
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        continue-on-error: true
 
       - name: Check Quality Gate status
         if: steps.sonarqube-quality-gate-check.outcome == 'failure'
