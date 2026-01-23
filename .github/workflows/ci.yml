@@ -46,17 +46,6 @@ jobs:
         run: |
           mypy . --ignore-missing-imports --no-strict-optional || exit 1
 
-  sonarqube:
-    name: SonarQube
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   sast-scan:
     name: SAST - Static Analysis (SonarQube)
@@ -79,15 +68,12 @@ jobs:
           pip install -r requirements.txt
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          projectKey: wsbdeveloper_Scaffold-python-2026
+          organization: wsbdeveloper
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Check Quality Gate status
-        if: steps.sonarqube-quality-gate-check.outcome == 'failure'
-        run: |
-          echo "❌ Quality Gate failed! Blocking merge."
-          exit 1
 
       - name: Run Bandit (Security Linter)
         run: |
