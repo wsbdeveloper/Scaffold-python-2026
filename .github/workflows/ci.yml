@@ -71,11 +71,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }} # Necessário para ler PRs
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.organization=wsbdeveloper
-            -Dsonar.projectKey=wsbdeveloper_Scaffold-python-2026
-            -Dsonar.qualitygate.wait=true
 
 
       - name: Check Quality Gate status
