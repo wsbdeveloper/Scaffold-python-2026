@@ -143,6 +143,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-html
 
       - name: Run Python unit tests with coverage
         run: |
